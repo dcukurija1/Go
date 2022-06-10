@@ -7,9 +7,13 @@ import (
 
 func main() {
 	var p food.Plate
-	p.AddToPlate(food.Food{"Apple", "Fruit", 50,});
+	apple := food.Food{"Apple", "Fruit", 50,}
+	//fmt.Println(apple)
+	orange := food.Food{"Orange", "Fruit", 60,}
+	p.AddToPlate(apple);
+	p.Items = append(p.Items, apple)
 	p.ShowPlate()
-	p.AddToPlate(food.Food{"Orange", "Fruit", 60,});
+	p.AddToPlate(orange);
 	p.ShowPlate()
 	fmt.Println(p.CurrentCalories())
 }

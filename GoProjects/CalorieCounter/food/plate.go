@@ -1,27 +1,27 @@
 package food
 import "fmt"
 type Plate struct {
-	plate []Food
+	Items []Food
 }
 type plate_int interface{
 	AddToPlate()
-	CurrentCalories()
+	CurrentCalories() int
 	ShowPlate()
 } 
 func (p Plate)AddToPlate(f Food) {
-	p.plate = append(p.plate, f)
+	p.Items = append(p.Items, f)
 }
 
 func (p Plate)CurrentCalories() int {
 	sum := 0
-	for _, food := range p.plate {
+	for _, food := range p.Items {
 		sum += food.Calories
 	} 
 	return sum
 }
 
 func (p Plate) ShowPlate() {
-	for _, food := range p.plate {
-		fmt.Println(food.Name, " ", food.Category, " ", food.Calories)
+	for _, food := range p.Items {
+		fmt.Println(food)
 	} 
 }
