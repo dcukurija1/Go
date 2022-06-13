@@ -1,15 +1,16 @@
 package food
 import "fmt"
 type Plate struct {
-	FoodItems []Food `json:"fooditems"`
+	FoodItems []Food `json:"foodItems"`
 }
 
 func (p *Plate)AddToPlate(f Food) {
 	p.FoodItems = append(p.FoodItems, f)
 }
 
-func (p Plate)CurrentCalories() int {
-	sum := 0
+func (p Plate)CurrentCalories() float32 {
+	var sum float32
+	sum = 0
 	for _, food := range p.FoodItems {
 		sum += food.GetCalories()
 	} 
@@ -19,7 +20,7 @@ func (p Plate)CurrentCalories() int {
 func (p Plate) ShowPlate() {
 	fmt.Println("Food on your plate: ")
 	for _, food := range p.FoodItems {
-		fmt.Println(food.GetName(), food.GetCalories(), "calories")
+		fmt.Println(food.GetName(), food.GetCalories(), "calories in", food.GetPortionSize(),"g")
 	}
 	fmt.Println()
 }
