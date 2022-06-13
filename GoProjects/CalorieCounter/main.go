@@ -14,7 +14,7 @@ func testFunction(){
 	var p food.Plate
 	p.AddToPlate(*food.NewFood(1, "Apple", "Fruit", 50, 100))
 	p.ShowPlate()
-	p.AddToPlate(*food.NewFood(1, "Orange", "Fruit", 60, 100))
+	p.AddToPlate(*food.NewFood(2, "Orange", "Fruit", 60, 100))
 	p.ShowPlate()
 	fmt.Println("Total calories: ", p.CurrentCalories())
 }

@@ -9,8 +9,7 @@ func (p *Plate)AddToPlate(f Food) {
 }
 
 func (p Plate)CurrentCalories() float32 {
-	var sum float32
-	sum = 0
+	var sum float32 = 0
 	for _, food := range p.FoodItems {
 		sum += food.GetCalories()
 	} 
