@@ -21,9 +21,33 @@ func New(db *gorm.DB) handler {
 }
 
 
-func (h handler) GetAllFood(w http.ResponseWriter, r *http.Request) {}
+func (h handler) GetAllFood(w http.ResponseWriter, r *http.Request) {
+    var foods []food.Food
 
-func (h handler) GetFood(w http.ResponseWriter, r *http.Request) {}
+    if result := h.DB.Find(&foods); result.Error != nil {
+        fmt.Println(result.Error)
+    }
+
+    w.Header().Add("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(foods)
+}
+
+func (h handler) GetFood(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id, _ := strconv.Atoi(vars["id"])
+
+    // Find book by Id
+    var foods food.Food
+
+    if result := h.DB.First(&foods, id); result.Error != nil {
+        fmt.Println(result.Error)
+    }
+
+    w.Header().Add("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(foods)
+}
 
 func (h handler) AddFood(w http.ResponseWriter, r *http.Request) {
     defer r.Body.Close()
@@ -47,7 +71,37 @@ func (h handler) AddFood(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode("Created")
 }
 
-func (h handler) UpdateFood(w http.ResponseWriter, r *http.Request) {}
+func (h handler) UpdateFood(w http.ResponseWriter, r *http.Request) {
+    vars := mux.Vars(r)
+    id, _ := strconv.Atoi(vars["id"])
+
+    // Read request body
+    defer r.Body.Close()
+    body, err := ioutil.ReadAll(r.Body)
+
+    if err != nil {
+        log.Fatalln(err)
+    }
+
+    var updatedFood food.Food
+    json.Unmarshal(body, &updatedFood)
+
+    var food food.Food
+
+    if result := h.DB.First(&food, id); result.Error != nil {
+        fmt.Println(result.Error)
+    }
+
+    food.Name = updatedFood.Name
+    food.Category = updatedFood.Category
+    food.Calories = updatedFood.Calories
+
+    h.DB.Save(&food)
+
+    w.Header().Add("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode("Updated")
+}
 
 func (h handler) DeleteFood(w http.ResponseWriter, r *http.Request) {
     // Read the dynamic id parameter

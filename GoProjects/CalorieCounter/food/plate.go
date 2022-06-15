@@ -11,7 +11,7 @@ func (p *Plate)AddToPlate(f Food) {
 func (p Plate)CurrentCalories() float32 {
 	var sum float32 = 0
 	for _, food := range p.FoodItems {
-		sum += food.GetCalories()
+		sum += food.Calories
 	} 
 	return sum
 }
@@ -19,7 +19,7 @@ func (p Plate)CurrentCalories() float32 {
 func (p Plate) ShowPlate() {
 	fmt.Println("Food on your plate: ")
 	for _, food := range p.FoodItems {
-		fmt.Println(food.GetName(), food.GetCalories(), "calories in", food.GetPortionSize(),"g")
+		fmt.Println(food.Name, food.Calories, "calories in", food.PortionSize,"g")
 	}
 	fmt.Println()
 }

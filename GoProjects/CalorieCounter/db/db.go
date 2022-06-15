@@ -8,9 +8,9 @@ import (
 )
 
 func initialFoodItems() []food.Food {
-	return []food.Food{*food.NewFood(1, "Apple", "Fruit", 50, 100),
-					   *food.NewFood(2, "Orange", "Fruit", 60, 100),
-					   *food.NewFood(3, "Pear", "Fruit", 65, 100)}
+	return []food.Food{food.Food{ Name:"Apple", Category:"Fruit", Calories: 50, PortionSize: 100},
+					   food.Food{ Name:"Green Apple", Category:"Fruit", Calories: 50, PortionSize: 100},
+					food.Food{ Name:"Red Apple", Category:"Fruit", Calories: 50, PortionSize: 100}}
 }
 
 func Init() *gorm.DB {
@@ -21,15 +21,10 @@ func Init() *gorm.DB {
     if err != nil {
         log.Fatalln(err)
     }
-
-    db.AutoMigrate(&food.Food{})
-	/*var foods = initialFoodItems()
-
-	db.Create(&foods)
-	// testing db
-	for _,f := range foods {
-		log.Println(f)
-	}*/
-
+    
+    if !db.Migrator().HasTable(&food.Food{}) {
+        db.AutoMigrate(&food.Food{})
+	    db.Create(initialFoodItems())
+    }
     return db
 }
